@@ -1,3 +1,0 @@
-"""
-DevBlog Backend API
-""" 

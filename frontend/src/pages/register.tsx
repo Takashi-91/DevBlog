@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/auth-context';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import api from '@/lib/api';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const { register } = useAuth();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -16,7 +16,11 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await register(email, username, password);
+      await api.post('/api/register', {
+        email,
+        username,
+        password,
+      });
       navigate('/login');
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Registration failed');

@@ -1,28 +1,15 @@
 import { useState } from "react";
 import { Menu, Search, X, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
-import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "./ui/use-toast";
+import { CgProfile } from "react-icons/cg";
+import { SearchBar } from "./SearchBar";
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
-  const { toast } = useToast();
 
-  const handleSignOut = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-      navigate("/auth");
-    } catch (error: any) {
-      toast({
-        title: "Error signing out",
-        description: error.message,
-        variant: "destructive",
-      });
-    }
-  };
+
 
   return (
     <nav className="fixed top-0 w-full z-50 glass-card">
@@ -35,22 +22,16 @@ export const Navigation = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            <a href="/blogs" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors">
-              Blogs
-            </a>
-            <a href="/write" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors">
-              Write
-            </a>
-            <a href="/dashboard" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors">
-              Dashboard
-            </a>
-            <Button variant="ghost" size="icon">
-              <Search className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" onClick={handleSignOut}>
+            
+           
+            <SearchBar/>
+            <Button variant="ghost" >
               <LogOut className="h-5 w-5 mr-2" />
               Sign Out
             </Button>
+            <a href="/profile" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors">
+              <CgProfile className="h-5 w-5 mr-2" />
+            </a>
           </div>
 
           <div className="md:hidden flex items-center">
@@ -73,7 +54,7 @@ export const Navigation = () => {
             <a href="/dashboard" className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors">
               Dashboard
             </a>
-            <Button variant="ghost" className="w-full justify-start" onClick={handleSignOut}>
+            <Button variant="ghost" className="w-full justify-start" >
               <LogOut className="h-5 w-5 mr-2" />
               Sign Out
             </Button>
